@@ -19,4 +19,28 @@ public class ProductRepositoryTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
+    @Test
+    public void shouldRemoveExistProduct(){
+        ProductRepository repo = new ProductRepository();
+        repo.save(product1);
+        repo.save(product2);
+        repo.save(product3);
+        repo.removeById(1);
+
+        Product[] expected = {product2, product3};
+        Product[] actual = repo.getProducts();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void shouldNotRemoveNotExistProduct(){
+        ProductRepository repo = new ProductRepository();
+        repo.save(product1);
+        repo.save(product2);
+        repo.save(product3);
+
+        Assertions.assertThrows(NotFoundExeption.class, () -> {
+            repo.removeById(2);
+        });
+    }
 }
